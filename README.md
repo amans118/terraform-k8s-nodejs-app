@@ -42,5 +42,24 @@ terraform init
 terraform plan
 terraform apply --auto-approve
 ```
+#### Important:
+*If testing this on a local cluster (kubeadm on Virtualbox VM's), please make these two changes*:
+* in **hpa.tf**
+```bash
+module "metrics_server" {
+  source                                     = "cookielab/metrics-server/kubernetes"
+  version                                    = "0.10.0"
+  metrics_server_option_kubelet_insecure_tls = "true"
+  metrics_server_option_kubelet_preferred_address_types = [ "InternalIP", "ExternalIP", "Hostname", "InternalDNS", "ExternalDNS" ]
+}
+```
+* Also, need to edit metrics-server deployment and add **hostNetwork: true** 
+```bash
+$ kubectl -n kube-system edit deployment metrics-server
+spec:
+  hostNetwork: true
+  containers:
+ ```
+
 #### All the kubernetes manifest for the Project can be found here:
 https://github.com/amans118/kubernetes-nodejs-app
