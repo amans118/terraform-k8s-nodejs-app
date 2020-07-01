@@ -39,7 +39,7 @@ resource "kubernetes_horizontal_pod_autoscaler" "nodejs-app" {
         name = "memory"
         target {
           type                = "Utilization"
-          average_utilization = 50
+          average_utilization = 60
         }
       }
     }
