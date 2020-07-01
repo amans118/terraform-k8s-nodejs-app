@@ -42,6 +42,33 @@ $ terraform init
 $ terraform plan
 $ terraform apply --auto-approve
 ```
+## Load Testing and Results
+* To increased load. We will start a container, and send an infinite loop of queries to the nodejs-app service.
+* Run the following command:
+```bash
+$ kubectl run -it --rm load-generator --image=busybox /bin/sh
+$ while true; do wget -q -O- http://service_name:port; done
+```
+### output
+```bash
+osboxes@kubemaster:~/terraform-k8s-nodejs-app$ kubectl get hpa -w
+
+NAME         REFERENCE               TARGETS            MINPODS   MAXPODS   REPLICAS   AGE
+nodejs-app   Deployment/nodejs-app   22%/60%, 41%/50%   7         15        10         96m
+nodejs-app   Deployment/nodejs-app   22%/60%, 41%/50%   7         15        10         97m
+nodejs-app   Deployment/nodejs-app   43%/60%, 88%/50%   7         15        10         97m
+nodejs-app   Deployment/nodejs-app   43%/60%, 88%/50%   7         15        15         98m
+nodejs-app   Deployment/nodejs-app   41%/60%, 50%/50%   7         15        15         98m
+nodejs-app   Deployment/nodejs-app   41%/60%, 58%/50%   7         15        15         99m
+nodejs-app   Deployment/nodejs-app   42%/60%, 0%/50%    7         15        15         100m
+nodejs-app   Deployment/nodejs-app   40%/60%, 0%/50%    7         15        15         101m
+nodejs-app   Deployment/nodejs-app   40%/60%, 0%/50%    7         15        15         105m
+nodejs-app   Deployment/nodejs-app   40%/60%, 0%/50%    7         15        11         105m
+nodejs-app   Deployment/nodejs-app   42%/60%, 0%/50%    7         15        11         106m
+nodejs-app   Deployment/nodejs-app   42%/60%, 0%/50%    7         15        10         106m
+nodejs-app   Deployment/nodejs-app   43%/60%, 0%/50%    7         15        10         107m
+```
+
 #### Important:
 *If testing this on a local cluster (kubeadm on Virtualbox VM's), please make these two changes*:
 * in **hpa.tf**
