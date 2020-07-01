@@ -42,3 +42,5 @@ terraform init
 terraform plan
 terraform apply --auto-approve
 ```
+#### All the kubernetes manifest for the Project can be found here:
+https://github.com/amans118/kubernetes-nodejs-app
