@@ -6,7 +6,7 @@ resource "kubernetes_secret" "docker-key" {
   }
 
   data = {
-    ".dockerconfigjson" = "${file("${path.module}/.docker/config.json")}"
+    ".dockerconfigjson" = "${file("~/.docker/config.json")}"
   }
 
   type = "kubernetes.io/dockerconfigjson"
