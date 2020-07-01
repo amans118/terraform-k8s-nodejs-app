@@ -9,7 +9,7 @@ This reporsiotry includes Terraform code for deploying a nodejs app/server on Ku
 * Docker stores its credentials in **.docker/config.json**. We need to base64 encode this file to use in our secret manifest (only if applying k8s manifest manually, not required in case of Terraform)
 * Run
 ```bash
-cat .docker/config.json | base64
+$ cat .docker/config.json | base64
 ```
 * Copy the output of above command and paste it in the secret manifest like this:
 ```bash
@@ -23,7 +23,7 @@ type: kubernetes.io/dockerconfigjson
 ```
 * This could also be done in a single command like this,
 ```bash
-kubectl create secret generic docker-key \
+$ kubectl create secret generic docker-key \
     --from-file=.dockerconfigjson=.docker/config.json \
     --type=kubernetes.io/dockerconfigjson
 ```
@@ -36,11 +36,11 @@ spec:
 ## Usage
 
 ```bash
-git clone https://github.com/amans118/terraform-k8s-nodejs-app.git
-cd terraform-k8s-nodejs-app
-terraform init
-terraform plan
-terraform apply --auto-approve
+$ git clone https://github.com/amans118/terraform-k8s-nodejs-app.git
+$ cd terraform-k8s-nodejs-app
+$ terraform init
+$ terraform plan
+$ terraform apply --auto-approve
 ```
 #### Important:
 *If testing this on a local cluster (kubeadm on Virtualbox VM's), please make these two changes*:
